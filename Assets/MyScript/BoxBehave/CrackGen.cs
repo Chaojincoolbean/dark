@@ -14,7 +14,7 @@ public class CrackGen : MonoBehaviour {
 
 	void Update()
 	{
-		Debug.Log (transform.localEulerAngles.z);
+//		Debug.Log (transform.localEulerAngles.z);
 	}
 
 	public void breakIt()
