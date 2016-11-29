@@ -5,6 +5,8 @@ public class Control : MonoBehaviour {
     public float moveSpeed;
     public float BackOff;
 
+	private float touchedWalls;
+
     private Rigidbody2D m_rigidbody;
     private Vector2 MoveDirct;
 	// Use this for initialization
@@ -16,6 +18,23 @@ public class Control : MonoBehaviour {
 	void Update () {
         Move();
     }
+
+	public void OnTriggerEnter(Collider col){
+		if (col.tag == "wall") {
+			touchedWalls ++;
+		}
+		if (touchedWalls > 1) {
+			gameObject.layer = 10;
+		}
+	}
+
+	public void OnTriggerExit(Collider col){
+		if (col.tag == "wall") {
+			touchedWalls --;
+		}
+		gameObject.layer = 8;
+	}
+		
 
     public void Move()
     {
