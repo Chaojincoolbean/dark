@@ -19,7 +19,7 @@ public class RotateWithPlayer : MonoBehaviour {
 		if (transform.eulerAngles.z <= 0.0f)
 			transform.rotation = Quaternion.Euler(transform.eulerAngles + Vector3.forward * 360.0f);
 
-		if (transform.rotation.eulerAngles.z <= 0.0f + 1.0f || transform.rotation.eulerAngles.z >= 360.0f - 1.0f)
-			Debug.Log ("adfa");
+		if (transform.rotation.eulerAngles.z <= 0.0f + 1.0f || transform.rotation.eulerAngles.z >= 360.0f - 1.0f) {
+		}
 	}
 }
