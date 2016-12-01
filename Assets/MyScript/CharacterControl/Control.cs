@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Control : MonoBehaviour {
     public float moveSpeed;
     public float BackOff;
 
+	private List<Collider2D> collidedObjects;
 	private float touchedWalls;
-
+	private Collider2D c;
     private Rigidbody2D m_rigidbody;
     private Vector2 MoveDirct;
+
 	// Use this for initialization
 	void Start () {
+		collidedObjects = new List<Collider2D> ();
+		c = GetComponent<Collider2D> ();
         m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 	
@@ -19,20 +24,43 @@ public class Control : MonoBehaviour {
         Move();
     }
 
-	public void OnTriggerEnter(Collider col){
+	public void OnTriggerEnter2D(Collider2D col){
+
 		if (col.tag == "wall") {
-			touchedWalls ++;
+
+			string sharedParentName = col.transform.parent.name;
+			bool sharedWallFromBox = false;
+
+			//make sure it's not another wall in the box the player is currently in
+			foreach (Collider2D c in collidedObjects) {
+				if (c.transform.parent.name == sharedParentName) {
+					sharedWallFromBox = true;
+				}
+			}
+			if (!sharedWallFromBox) {
+				collidedObjects.Add (col);
+				touchedWalls++;
+			}
 		}
+
 		if (touchedWalls > 1) {
-			gameObject.layer = 10;
+			foreach (Collider2D c in collidedObjects) {
+				c.gameObject.layer = 10;
+			}
 		}
 	}
 
-	public void OnTriggerExit(Collider col){
+	public void OnTriggerExit2D(Collider2D  col){
+		
 		if (col.tag == "wall") {
-			touchedWalls --;
+
+			if(collidedObjects.Contains(col)){
+				collidedObjects.Remove (col);
+				touchedWalls --;
+			}
 		}
-		gameObject.layer = 8;
+
+		col.gameObject.layer = 9;
 	}
 		
 

@@ -14,14 +14,5 @@ public class Wall_Detection : MonoBehaviour {
 		if (collision.gameObject.tag == "Player" && collision.relativeVelocity.magnitude >= 1.0f) {
 		}
 	}
-
-	void OnCollisionStay2D(Collision2D collision){
-		if (collision.gameObject.tag == "wall") {
-			gameObject.layer = 10;
-		}
-	}
-
-	void OnCollisionExit2D(Collision2D collision){
-		gameObject.layer = 8;
-		}
+		
 }
