@@ -12,14 +12,14 @@ public class FormingSysmbol : MonoBehaviour {
 		destination = new Vector3 (transform.position.x, transform.position.y - 1f, transform.position.z);
 		alpha = 0.0f;
 		ifStart = false;
-		GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
+		GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (ifStart) {
 			alpha += Time.deltaTime;
-			GetComponent<SpriteRenderer> ().color += new Color ( Time.deltaTime, 0, 0, alpha);
+			GetComponent<SpriteRenderer> ().color += new Color (0,0,0, alpha);
 			transform.position = Vector3.Lerp (origin, destination, alpha);
 		}
 	}

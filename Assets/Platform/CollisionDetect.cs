@@ -27,8 +27,12 @@ public class CollisionDetect : MonoBehaviour {
 		if (!iftriggered) {
 			iftriggered = true;
 			ContactPoint2D[] points = collision.contacts;
-			boxPlayer = (GameObject)Instantiate(Bump, points[0].point, transform.rotation);
-			boxPlayer.GetComponent<Animator> ().SetBool ("Big_Trigger", true);
+//			boxPlayer = (GameObject)Instantiate(Bump, points[0].point, transform.rotation);
+//			boxPlayer.GetComponent<Animator> ().SetBool ("Big_Trigger", true);
+			playerBox.GetComponent<CrackGen> ().angle = -playerBox.transform.eulerAngles.z;
+//			if (playerBox.transform.eulerAngles > -45 && playerBox.transform.eulerAngles < 45) {
+//				
+//			}
 			playerBox.GetComponent<CrackGen> ().breakIt ();
 			//playerBox.transform.FindChild ("Root_Black").GetComponent<SpriteRenderer> ().enabled = true;
 			player.gameObject.GetComponent<Control> ().enabled = true;

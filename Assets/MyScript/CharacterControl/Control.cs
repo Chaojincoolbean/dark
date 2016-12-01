@@ -24,45 +24,45 @@ public class Control : MonoBehaviour {
         Move();
     }
 
-	public void OnTriggerEnter2D(Collider2D col){
+//	public void OnTriggerEnter2D(Collider2D col){
+//
+//		if (col.tag == "wall") {
+//
+//			string sharedParentName = col.transform.parent.name;
+//			bool sharedWallFromBox = false;
+//
+//			//make sure it's not another wall in the box the player is currently in
+//			foreach (Collider2D c in collidedObjects) {
+//				if (c.transform.parent.name == sharedParentName) {
+//					sharedWallFromBox = true;
+//				}
+//			}
+//			if (!sharedWallFromBox) {
+//				collidedObjects.Add (col);
+//				touchedWalls++;
+//			}
+//		}
+//
+//		if (touchedWalls > 1) {
+//			foreach (Collider2D c in collidedObjects) {
+//				c.gameObject.layer = 10;
+//			}
+//		}
+//	}
 
-		if (col.tag == "wall") {
-
-			string sharedParentName = col.transform.parent.name;
-			bool sharedWallFromBox = false;
-
-			//make sure it's not another wall in the box the player is currently in
-			foreach (Collider2D c in collidedObjects) {
-				if (c.transform.parent.name == sharedParentName) {
-					sharedWallFromBox = true;
-				}
-			}
-			if (!sharedWallFromBox) {
-				collidedObjects.Add (col);
-				touchedWalls++;
-			}
-		}
-
-		if (touchedWalls > 1) {
-			foreach (Collider2D c in collidedObjects) {
-				c.gameObject.layer = 10;
-			}
-		}
-	}
-
-	public void OnTriggerExit2D(Collider2D  col){
-		
-		if (col.tag == "wall") {
-
-			if(collidedObjects.Contains(col)){
-				collidedObjects.Remove (col);
-				touchedWalls --;
-			}
-		}
-
-		col.gameObject.layer = 9;
-	}
-		
+//	public void OnTriggerExit2D(Collider2D  col){
+//		
+//		if (col.tag == "wall") {
+//
+//			if(collidedObjects.Contains(col)){
+//				collidedObjects.Remove (col);
+//				touchedWalls --;
+//			}
+//		}
+//
+//		col.gameObject.layer = 9;
+//	}
+//		
 
     public void Move()
     {
