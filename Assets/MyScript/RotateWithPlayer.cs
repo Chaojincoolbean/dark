@@ -20,6 +20,9 @@ public class RotateWithPlayer : MonoBehaviour {
 			transform.rotation = Quaternion.Euler(transform.eulerAngles + Vector3.forward * 360.0f);
 
 		if (transform.rotation.eulerAngles.z <= 0.0f + 1.0f || transform.rotation.eulerAngles.z >= 360.0f - 1.0f) {
+			GetComponent<SpriteRenderer> ().color = Color.Lerp (GetComponent<SpriteRenderer> ().color, Color.white, Time.deltaTime);
+		} else {
+			GetComponent<SpriteRenderer> ().color = Color.Lerp (GetComponent<SpriteRenderer> ().color, Color.red, Time.deltaTime);
 		}
 	}
 }
