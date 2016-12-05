@@ -34,15 +34,16 @@ public class CrackGen : MonoBehaviour {
 			newCrack.transform.parent = transform;
 			player.GetComponent<DisablePlayerControl> ().StartCoroutine ("DisableControl", 3);
 			cracks++;
-//			GetComponent<AudioSource> ().Play ();
+			GetComponent<AudioSource> ().Play ();
 		}
 
 		CheckAmountofCracks ();
 	}
 
 	void CheckAmountofCracks(){
-		if (cracks > 1) {
-			player.GetComponent<Control> ().cracked = true;
+		if (cracks > 0) {
+			StartCoroutine (player.GetComponent<Control> ().StartFlying ());
+			this.enabled = false;
 		}
 	}
 }

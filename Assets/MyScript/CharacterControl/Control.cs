@@ -69,13 +69,13 @@ public class Control : MonoBehaviour {
 //		
 
 	public void Fly(){
-		transform.position = new Vector3 (transform.position.x + Input.GetAxis ("Horizontal"), transform.position.y + Input.GetAxis ("Vertical"), 0);
+		transform.position = new Vector3 (transform.position.x + Input.GetAxis ("Horizontal")/10, transform.position.y + Input.GetAxis ("Vertical")/10, 0);
 	}
     
 	public void Move()
     {
 
-		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -5) {
+		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -5 || controlOff) {
 			transform.position = new Vector3 (EggCollider.bounds.center.x, EggCollider.bounds.center.y - c.bounds.extents.y/2, 0);
 		}
 
@@ -105,7 +105,7 @@ public class Control : MonoBehaviour {
 		}
     }
 
-	IEnumerator Blink(){
+	public IEnumerator Blink(){
 		float t = 0;
 
 		while (t <= Mathf.PI) {
@@ -115,6 +115,37 @@ public class Control : MonoBehaviour {
 			yield return null;
 		}
 	}
+
+	public IEnumerator CloseEye(){
+
+		transform.localScale = new Vector3 (0, 0, 0);
+		yield return new WaitForSeconds (2);
+		float t = 0;
+
+		while (t <= Mathf.PI/2) {
+			float size = Mathf.Sin (t);
+			transform.localScale = new Vector3 (1, size, 1);
+			t += Time.deltaTime * 5;
+			yield return null;
+		}
+	}
+
+	public IEnumerator StartFlying(){
+
+		float t = 0;
+		yield return new WaitForSeconds (1);
+		while (t < 1) {
+			t += Time.deltaTime;
+			transform.Translate (0, Time.deltaTime, 0);
+			Debug.Log (t);
+			yield return null;
+		}
+			
+		Debug.Log("flying");
+		cracked = true;
+		GetComponent<TrailRenderer> ().enabled = true;
+	}
+
 //    void OnCollisionStay2D(Collision2D collision)
 //    {
 //        if (MoveDirct == Vector2.zero)

@@ -11,6 +11,7 @@ public class DisablePlayerControl : MonoBehaviour {
 	public IEnumerator DisableControl(float t){
 		
 		GetComponent<Control> ().controlOff = true;
+		StartCoroutine(GetComponent<Control>().CloseEye());
 
 		while (t >= 0) {
 			t -= Time.deltaTime;
