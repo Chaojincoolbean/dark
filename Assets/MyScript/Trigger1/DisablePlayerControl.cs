@@ -10,12 +10,12 @@ public class DisablePlayerControl : MonoBehaviour {
 
 	public IEnumerator DisableControl(float t){
 		
-		GetComponent<Control> ().controlOff = false;
+		GetComponent<Control> ().controlOff = true;
 
 		while (t >= 0) {
 			t -= Time.deltaTime;
 			yield return null;
 		}
-		GetComponent<Control> ().controlOff = true;
+		GetComponent<Control> ().controlOff = false;
 	}
 }

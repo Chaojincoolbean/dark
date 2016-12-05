@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public class Control : MonoBehaviour {
     public float moveSpeed;
     public float BackOff;
-	public bool controlOff;
+	public bool controlOff = false;
 	public GameObject Egg;
 	public Collider2D EggCollider;
 	private Collider2D c;
     private Rigidbody2D r;
     private Vector2 MoveDirct;
 	private bool outsideBounds;
+	public bool cracked = false;
 	// Use this for initialization
 	void Start () {
 		c = GetComponent<Collider2D> ();
@@ -20,7 +21,11 @@ public class Control : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Move();
+		if (!cracked) {
+			Move ();
+		} else {
+			Fly ();
+		}
     }
 
 //	public void OnTriggerEnter2D(Collider2D col){
@@ -63,12 +68,15 @@ public class Control : MonoBehaviour {
 //	}
 //		
 
-    public void Move()
+	public void Fly(){
+		transform.position = new Vector3 (transform.position.x + Input.GetAxis ("Horizontal"), transform.position.y + Input.GetAxis ("Vertical"), 0);
+	}
+    
+	public void Move()
     {
-		controlOff = false;
 
 		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -5) {
-			controlOff = true;
+			transform.position = new Vector3 (EggCollider.bounds.center.x, EggCollider.bounds.center.y - c.bounds.extents.y/2, 0);
 		}
 
 		//Finds the furthest point away from the center of the egg on the player eyeball
@@ -90,13 +98,10 @@ public class Control : MonoBehaviour {
 				new Vector3 (
 					Mathf.Clamp (transform.position.x + Input.GetAxis ("Horizontal"), EggCollider.bounds.center.x - (EggCollider.bounds.extents.x - c.bounds.extents.x), EggCollider.bounds.center.x + (EggCollider.bounds.extents.x - c.bounds.extents.x)), 
 					Mathf.Clamp (transform.position.y + Input.GetAxis ("Vertical"), EggCollider.bounds.center.y - (EggCollider.bounds.extents.y - c.bounds.extents.y), EggCollider.bounds.center.y + (EggCollider.bounds.extents.y - c.bounds.extents.y)), 0),
-				Egg.GetComponent<Rigidbody2D>().velocity.magnitude /10);
+				Egg.GetComponent<Rigidbody2D> ().velocity.magnitude / 10);
 
-			Egg.GetComponent<Rigidbody2D> ().AddForceAtPosition (new Vector2(Input.GetAxis("Horizontal"), 0) * moveSpeed, transform.position);
-			Egg.GetComponent<Rigidbody2D> ().AddForce(new Vector2(0, Input.GetAxis("Vertical") * moveSpeed * 2));
-		}else{
-			//if Control is off recenter the eye in the egg
-			transform.position = new Vector3 (EggCollider.bounds.center.x, EggCollider.bounds.center.y - c.bounds.extents.y/2, 0);
+			Egg.GetComponent<Rigidbody2D> ().AddForceAtPosition (new Vector2 (Input.GetAxis ("Horizontal"), 0) * moveSpeed, transform.position);
+			Egg.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, Input.GetAxis ("Vertical") * moveSpeed * 2));
 		}
     }
 

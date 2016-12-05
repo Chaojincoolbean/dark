@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CrackGen : MonoBehaviour {
+public class EggNestCracking : MonoBehaviour {
 	public float angle;
 	public int index;
 	public GameObject crack;
 	public GameObject player;
-	private int cracks;
 	void Start(){
 	}
 
@@ -32,17 +31,8 @@ public class CrackGen : MonoBehaviour {
 			newCrack.transform.rotation = Quaternion.Euler(new Vector3 (0,0, -Vector3.Angle (transform.position, player.transform.position)));
 			newCrack.transform.position = new Vector3 (points[0].point.x, points[0].point.y, 0);
 			newCrack.transform.parent = transform;
-			player.GetComponent<DisablePlayerControl> ().StartCoroutine ("DisableControl", 3);
-			cracks++;
-//			GetComponent<AudioSource> ().Play ();
-		}
-
-		CheckAmountofCracks ();
-	}
-
-	void CheckAmountofCracks(){
-		if (cracks > 1) {
-			player.GetComponent<Control> ().cracked = true;
+			GetComponent<AudioSource> ().Play ();
 		}
 	}
+
 }
