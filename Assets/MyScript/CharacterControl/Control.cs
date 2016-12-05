@@ -9,13 +9,13 @@ public class Control : MonoBehaviour {
 	public GameObject Egg;
 	public Collider2D EggCollider;
 	private Collider2D c;
-    private Rigidbody2D m_rigidbody;
+    private Rigidbody2D r;
     private Vector2 MoveDirct;
 	private bool outsideBounds;
 	// Use this for initialization
 	void Start () {
 		c = GetComponent<Collider2D> ();
-        m_rigidbody = GetComponent<Rigidbody2D>();
+        r = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -65,23 +65,26 @@ public class Control : MonoBehaviour {
 
     public void Move()
     {
+		controlOff = false;
 
+		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -2) {
+			controlOff = true;
+		}
+
+		//Finds the furthest point away from the center of the egg on the player eyeball
 		Vector3 positiontoEgg= transform.position - EggCollider.bounds.center;
 		Vector3 otherSide = transform.position + positiontoEgg;
 		Vector3 furthestPoint = c.bounds.ClosestPoint(otherSide);
 
-
-//		Debug.Log(EggCollider.bounds.Contains (furthestPoint));
-
+		//if the Egg trigger does not contain this point it moves the egg towards the player
 		if (!EggCollider.bounds.Contains (furthestPoint)) {
 		
 			MoveDirct = (furthestPoint - EggCollider.bounds.center) * BackOff;
 			Egg.GetComponent<Rigidbody2D> ().AddForce (MoveDirct * moveSpeed);
 			StartCoroutine(Blink());
-			//			m_rigidbody.AddForce(-MoveDirct);
-			//			(EggCollider.bounds.ClosestPoint(furthestPoint) - furthestPoint) * BackOff)
 		}
 
+		//let the player move the eye if the egg is not falling and no point of the eye is outside the egg
 		if (!controlOff) {
 			transform.position = Vector3.Lerp (transform.position,
 				new Vector3 (
@@ -91,6 +94,9 @@ public class Control : MonoBehaviour {
 
 			Egg.GetComponent<Rigidbody2D> ().AddForceAtPosition (new Vector2(Input.GetAxis("Horizontal"), 0) * moveSpeed, transform.position);
 			Egg.GetComponent<Rigidbody2D> ().AddForce(new Vector2(0, Input.GetAxis("Vertical") * moveSpeed * 2));
+		}else{
+			//if Control is off recenter the eye in the egg
+			transform.position = Vector3.Lerp (transform.position, EggCollider.bounds.center - c.bounds.extents, Time.deltaTime * 50);
 		}
     }
 
