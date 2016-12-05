@@ -20,20 +20,20 @@ public class CollisionDetect : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-		GameObject boxPlayer;
-
-		if (!iftriggered) {
-			iftriggered = true;
-			ContactPoint2D[] points = collision.contacts;
+//	void OnCollisionEnter2D(Collision2D collision)
+//	{
+//		GameObject boxPlayer;
+//
+//		if (!iftriggered) {
+//			iftriggered = true;
+//			ContactPoint2D[] points = collision.contacts;
 //			boxPlayer = (GameObject)Instantiate(Bump, points[0].point, transform.rotation);
 //			boxPlayer.GetComponent<Animator> ().SetBool ("Big_Trigger", true);
-			playerBox.GetComponent<CrackGen> ().angle = -playerBox.transform.eulerAngles.z;
-			playerBox.GetComponent<CrackGen> ().breakIt ();
-			//playerBox.transform.FindChild ("Root_Black").GetComponent<SpriteRenderer> ().enabled = true;
-			player.gameObject.GetComponent<Control> ().enabled = true;
-			GetComponent<AudioSource> ().Play ();
-		}
-	}
+//			playerBox.GetComponent<CrackGen> ().angle = -playerBox.transform.eulerAngles.z;
+//			playerBox.GetComponent<CrackGen> ().breakIt ();
+//			//playerBox.transform.FindChild ("Root_Black").GetComponent<SpriteRenderer> ().enabled = true;
+//			player.gameObject.GetComponent<Control> ().enabled = true;
+//			GetComponent<AudioSource> ().Play ();
+//		}
+//	}
 }
