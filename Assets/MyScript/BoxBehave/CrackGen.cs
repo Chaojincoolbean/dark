@@ -4,38 +4,46 @@ using System.Collections;
 public class CrackGen : MonoBehaviour {
 	public float angle;
 	public int index;
-
-	private GameObject root;
-
-	void Start()
-	{
-		root = transform.FindChild ("Root_Black").gameObject;
+	public GameObject crack;
+	public GameObject player;
+	private int cracks;
+	void Start(){
 	}
 
-	void Update()
-	{
-//		Debug.Log (transform.localEulerAngles.z);
+	void Update(){
+	}
+		
+
+	void OnCollisionExit2D(Collision2D col){
+		if (col.gameObject.tag == "wall") {
+			player.GetComponent<Control> ().controlOff = true;
+		}
 	}
 
-	public void breakIt()
+	void OnCollisionEnter2D(Collision2D col)
 	{
-		if (!root.GetComponent<SpriteRenderer> ().enabled) {
-//			if (index == 0) {
-//				angle = 90.0f;
-//			}
-//			if (index == 1) {
-//				angle = -90.0f;
-//			}
-//			if (index == 2) {
-//				angle = 180.0f;
-//			}
-//			if (index == 3) {
-//				angle = 0.0f;
-//			}
-//			
-//			Debug.Log (transform.eulerAngles.z);
-			root.GetComponent<SpriteRenderer> ().enabled = true;
-			root.transform.localRotation = Quaternion.Euler (0, 0, angle);
+		ContactPoint2D[] points = col.contacts;
+
+		if (col.gameObject.tag == "wall") {
+			player.GetComponent<Control> ().controlOff = false;
+		}
+
+		if (col.relativeVelocity.magnitude > 20 && col.gameObject.tag == "wall") {
+			GameObject newCrack = (GameObject)Instantiate(crack, transform.position, transform.rotation); // Vector3.Angle (transform.position, player.transform.position));
+			newCrack.transform.rotation = Quaternion.Euler(new Vector3 (0,0, -Vector3.Angle (transform.position, player.transform.position)));
+			newCrack.transform.parent = transform;
+			player.GetComponent<DisablePlayerControl> ().StartCoroutine ("DisableControl", 3);
+//			GetComponent<AudioSource> ().Play ();
+		}
+
+		CheckAmountofCracks ();
+	}
+
+	void CheckAmountofCracks(){
+		if (cracks > 3) {
+			foreach (Transform t in transform.GetComponentsInChildren<Transform>()) {
+				
+			}
 		}
 	}
 }

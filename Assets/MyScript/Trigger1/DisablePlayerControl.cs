@@ -8,11 +8,14 @@ public class DisablePlayerControl : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter2D(Collider2D collider)
-	{
-		if(collider.gameObject.tag == "Player")
-		{
-			collider.gameObject.GetComponent<Control> ().enabled = false;
+	public IEnumerator DisableControl(float t){
+		
+		GetComponent<Control> ().controlOff = false;
+
+		while (t >= 0) {
+			t -= Time.deltaTime;
+			yield return null;
 		}
+		GetComponent<Control> ().controlOff = true;
 	}
 }
