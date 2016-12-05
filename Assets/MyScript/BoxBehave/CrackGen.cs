@@ -7,10 +7,25 @@ public class CrackGen : MonoBehaviour {
 	public GameObject crack;
 	public GameObject player;
 	private int cracks;
+	private bool broken = false;
 	void Start(){
 	}
 
 	void Update(){
+		if (broken) {
+			int i = 0;
+			foreach (SpringJoint2D s in GetComponents<SpringJoint2D>()) {
+				GetComponent<LineRenderer> ().SetVertexCount (i + 2);
+				GetComponent<LineRenderer> ().SetPosition (i, new Vector3(transform.position.x +  s.anchor.x, transform.position.y + s.anchor.y, 0));
+				GetComponent<LineRenderer> ().SetPosition (i + 1, player.transform.position);
+				i += 2;
+			}
+
+			if (i == 0) {
+				Destroy (GetComponent<LineRenderer>());
+				Destroy (this);
+			}
+		}
 	}
 		
 
@@ -32,18 +47,28 @@ public class CrackGen : MonoBehaviour {
 			newCrack.transform.rotation = Quaternion.Euler(new Vector3 (0,0, -Vector3.Angle (transform.position, player.transform.position)));
 			newCrack.transform.position = new Vector3 (points[0].point.x, points[0].point.y, 0);
 			newCrack.transform.parent = transform;
-			player.GetComponent<Control> ().StartCoroutine ("CloseEye");
-			cracks++;
 			GetComponent<AudioSource> ().Play ();
+			cracks++;
+			if(!broken){
+				player.GetComponent<Control> ().StartCoroutine ("CloseEye");
+				CheckAmountofCracks ();
+			}
 		}
-
-		CheckAmountofCracks ();
 	}
 
 	void CheckAmountofCracks(){
 		if (cracks > 0) {
 			StartCoroutine (player.GetComponent<Control> ().StartFlying ());
-			this.enabled = false;
+			GetComponent<LineRenderer> ().SetPosition (0, player.transform.position); 
+
+			int i = 0;
+
+			foreach(SpringJoint2D s in GetComponents<SpringJoint2D>()){
+				i+=2;
+				s.enabled = true;
+				GetComponent<LineRenderer> ().SetVertexCount (i);
+			}
+			broken = true;
 		}
 	}
 }

@@ -78,11 +78,11 @@ public class Control : MonoBehaviour {
 
 	public void Fly(){
 
-		r.AddForce (new Vector2 (Input.GetAxis ("Horizontal") * moveSpeed, 0));
+		r.AddForce (new Vector2 (Input.GetAxis ("Horizontal") * moveSpeed, Input.GetAxis("Vertical") * moveSpeed));
 
 		if (Input.GetButtonDown ("Fire") && timer < 0) {
 			wingFlapper.SetTrigger ("ButtonPress");
-			r.AddForce (new Vector2(0, moveSpeed * 20));
+			r.AddForce (new Vector2(0, moveSpeed * 10));
 			timer = interval;
 		} else {
 			timer -= Time.deltaTime;
@@ -165,6 +165,7 @@ public class Control : MonoBehaviour {
 		GetComponent<TrailRenderer> ().enabled = true;
 		r.isKinematic = false;
 		wings.SetActive (true);
+		Egg.layer = 0;
 	}
 
 //    void OnCollisionStay2D(Collision2D collision)

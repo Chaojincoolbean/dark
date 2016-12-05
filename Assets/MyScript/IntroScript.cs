@@ -21,6 +21,7 @@ public class IntroScript : MonoBehaviour {
 		float t = 0;
 		Transform player = GameObject.FindGameObjectWithTag("Player").transform;
 		Vector3 originalPos = cam.transform.position;
+
 		while (t <= Mathf.PI/2) {
 			cam.transform.position = Vector3.Lerp(originalPos, new Vector3(player.position.x,player.position.y + cam.GetComponent<CmeraFollow>().bias.y, cam.transform.position.z), Mathf.Sin(t));
 			t += Time.deltaTime/2;
