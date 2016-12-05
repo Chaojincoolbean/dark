@@ -8,13 +8,21 @@ public class Control : MonoBehaviour {
 	public bool controlOff = false;
 	public GameObject Egg;
 	public Collider2D EggCollider;
-	private Collider2D c;
-    private Rigidbody2D r;
-    private Vector2 MoveDirct;
 	private bool outsideBounds;
 	public bool cracked = false;
+	public GameObject wings;
+
+	public float interval;
+
+	public Animator wingFlapper;
+	float timer;
+
+	private Collider2D c;
+	private Rigidbody2D r;
+	private Vector2 MoveDirct;
 	// Use this for initialization
 	void Start () {
+		timer = interval;
 		c = GetComponent<Collider2D> ();
         r = GetComponent<Rigidbody2D>();
 	}
@@ -69,7 +77,16 @@ public class Control : MonoBehaviour {
 //		
 
 	public void Fly(){
-		transform.position = new Vector3 (transform.position.x + Input.GetAxis ("Horizontal")/10, transform.position.y + Input.GetAxis ("Vertical")/10, 0);
+
+		r.AddForce (new Vector2 (Input.GetAxis ("Horizontal") * moveSpeed, 0));
+
+		if (Input.GetButtonDown ("Fire") && timer < 0) {
+			wingFlapper.SetTrigger ("ButtonPress");
+			r.AddForce (new Vector2(0, moveSpeed * 20));
+			timer = interval;
+		} else {
+			timer -= Time.deltaTime;
+		}
 	}
     
 	public void Move()
@@ -118,6 +135,8 @@ public class Control : MonoBehaviour {
 
 	public IEnumerator CloseEye(){
 
+		controlOff = true;
+
 		transform.localScale = new Vector3 (0, 0, 0);
 		yield return new WaitForSeconds (2);
 		float t = 0;
@@ -128,22 +147,24 @@ public class Control : MonoBehaviour {
 			t += Time.deltaTime * 5;
 			yield return null;
 		}
+
+		controlOff = false;
 	}
 
 	public IEnumerator StartFlying(){
+
 
 		float t = 0;
 		yield return new WaitForSeconds (1);
 		while (t < 1) {
 			t += Time.deltaTime;
-			transform.Translate (0, Time.deltaTime, 0);
-			Debug.Log (t);
 			yield return null;
 		}
 			
-		Debug.Log("flying");
 		cracked = true;
 		GetComponent<TrailRenderer> ().enabled = true;
+		r.isKinematic = false;
+		wings.SetActive (true);
 	}
 
 //    void OnCollisionStay2D(Collision2D collision)

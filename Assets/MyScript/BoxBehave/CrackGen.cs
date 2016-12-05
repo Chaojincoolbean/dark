@@ -32,7 +32,7 @@ public class CrackGen : MonoBehaviour {
 			newCrack.transform.rotation = Quaternion.Euler(new Vector3 (0,0, -Vector3.Angle (transform.position, player.transform.position)));
 			newCrack.transform.position = new Vector3 (points[0].point.x, points[0].point.y, 0);
 			newCrack.transform.parent = transform;
-			player.GetComponent<DisablePlayerControl> ().StartCoroutine ("DisableControl", 3);
+			player.GetComponent<Control> ().StartCoroutine ("CloseEye");
 			cracks++;
 			GetComponent<AudioSource> ().Play ();
 		}

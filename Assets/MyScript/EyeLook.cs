@@ -24,7 +24,7 @@ public class EyeLook : MonoBehaviour {
 		pupil.transform.localPosition = Vector3.Lerp(pupil.transform.localPosition, 
 			new Vector3(
 				Mathf.Clamp(Input.GetAxis("Horizontal"), -c.bounds.extents.x + eyeCol.bounds.extents.x, c.bounds.extents.x - eyeCol.bounds.extents.x), 
-				Mathf.Clamp(-Input.GetAxis("Vertical"), -c.bounds.extents.y + eyeCol.bounds.extents.y, c.bounds.extents.y - eyeCol.bounds.extents.y), 0), 
+				Mathf.Clamp(Input.GetAxis("Vertical"), -c.bounds.extents.y + eyeCol.bounds.extents.y, c.bounds.extents.y - eyeCol.bounds.extents.y), 0), 
 				Time.deltaTime * 5);
 	}
 }
