@@ -27,7 +27,7 @@ public class CrackGen : MonoBehaviour {
 		if (col.gameObject.tag == "wall") {
 			player.GetComponent<Control> ().controlOff = false;
 		}
-		Debug.Log (col.relativeVelocity.y);
+
 		if (col.relativeVelocity.y < -20 && col.gameObject.tag == "wall") {
 			GameObject newCrack = (GameObject)Instantiate(crack, transform.position, transform.rotation); // Vector3.Angle (transform.position, player.transform.position));
 			newCrack.transform.rotation = Quaternion.Euler(new Vector3 (0,0, -Vector3.Angle (transform.position, player.transform.position)));
