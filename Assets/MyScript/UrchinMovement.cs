@@ -18,7 +18,8 @@ public class UrchinMovement : MonoBehaviour {
 	}
 
 	void Move(){
-		r.AddForce (((target.bounds.extents + target.transform.position) - transform.position) * force);
+		Vector2 ForceToAdd = (((target.bounds.extents + target.transform.position) - transform.position)).normalized * force;
+		r.AddForce (ForceToAdd);	
 	}
 
 	public void OnTriggerEnter2D(Collider2D col){

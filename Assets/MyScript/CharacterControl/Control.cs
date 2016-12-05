@@ -67,7 +67,7 @@ public class Control : MonoBehaviour {
     {
 		controlOff = false;
 
-		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -2) {
+		if (Egg.GetComponent<Rigidbody2D>().velocity.y < -5) {
 			controlOff = true;
 		}
 
@@ -79,8 +79,8 @@ public class Control : MonoBehaviour {
 		//if the Egg trigger does not contain this point it moves the egg towards the player
 		if (!EggCollider.bounds.Contains (furthestPoint)) {
 		
-			MoveDirct = (furthestPoint - EggCollider.bounds.center) * BackOff;
-			Egg.GetComponent<Rigidbody2D> ().AddForce (MoveDirct * moveSpeed);
+//			MoveDirct = (furthestPoint - EggCollider.bounds.center) * BackOff;
+//			Egg.GetComponent<Rigidbody2D> ().AddForce (MoveDirct * moveSpeed);
 			StartCoroutine(Blink());
 		}
 
@@ -90,13 +90,13 @@ public class Control : MonoBehaviour {
 				new Vector3 (
 					Mathf.Clamp (transform.position.x + Input.GetAxis ("Horizontal"), EggCollider.bounds.center.x - (EggCollider.bounds.extents.x - c.bounds.extents.x), EggCollider.bounds.center.x + (EggCollider.bounds.extents.x - c.bounds.extents.x)), 
 					Mathf.Clamp (transform.position.y + Input.GetAxis ("Vertical"), EggCollider.bounds.center.y - (EggCollider.bounds.extents.y - c.bounds.extents.y), EggCollider.bounds.center.y + (EggCollider.bounds.extents.y - c.bounds.extents.y)), 0),
-				Time.deltaTime * 10);
+				Egg.GetComponent<Rigidbody2D>().velocity.magnitude /10);
 
 			Egg.GetComponent<Rigidbody2D> ().AddForceAtPosition (new Vector2(Input.GetAxis("Horizontal"), 0) * moveSpeed, transform.position);
 			Egg.GetComponent<Rigidbody2D> ().AddForce(new Vector2(0, Input.GetAxis("Vertical") * moveSpeed * 2));
 		}else{
 			//if Control is off recenter the eye in the egg
-			transform.position = Vector3.Lerp (transform.position, EggCollider.bounds.center - c.bounds.extents, Time.deltaTime * 50);
+			transform.position = new Vector3 (EggCollider.bounds.center.x, EggCollider.bounds.center.y - c.bounds.extents.y/2, 0);
 		}
     }
 
