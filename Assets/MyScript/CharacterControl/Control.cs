@@ -11,7 +11,7 @@ public class Control : MonoBehaviour {
 	private bool outsideBounds;
 	public bool cracked = false;
 	public GameObject wings;
-
+	public AudioClip flappingSound;
 	public float interval;
 
 	public Animator wingFlapper;
@@ -81,9 +81,11 @@ public class Control : MonoBehaviour {
 		r.AddForce (new Vector2 (Input.GetAxis ("Horizontal") * moveSpeed * 3, Input.GetAxis("Vertical") * moveSpeed * 3));
 
 		if (Input.GetButtonDown ("Fire") && timer < 0 && transform.position.y < 100) {
+			
 			wingFlapper.SetTrigger ("ButtonPress");
 			r.AddForce (new Vector2(0, moveSpeed * 50));
 			timer = interval;
+			GetComponent<AudioSource> ().PlayOneShot (flappingSound);
 		} else {
 			timer -= Time.deltaTime;
 		}
