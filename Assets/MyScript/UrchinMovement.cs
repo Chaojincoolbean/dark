@@ -17,44 +17,45 @@ public class UrchinMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Move ();
-//		if (GetComponent<SpringJoint2D> () != null) {
-//			GetComponent<LineRenderer> ().SetVertexCount (2);
-//			GetComponent<LineRenderer> ().SetPosition (0, target.transform.position);
-//			GetComponent<LineRenderer> ().SetPosition (1, transform.position);
-//		} else {
-//			GetComponent<LineRenderer> ().SetVertexCount (0);
-//		}
+		if (GetComponent<SpringJoint2D> () != null) {
+			GetComponent<LineRenderer> ().SetVertexCount (2);
+			GetComponent<LineRenderer> ().SetPosition (0, target.transform.position);
+			GetComponent<LineRenderer> ().SetPosition (1, transform.position);
+		} else {
+			GetComponent<LineRenderer> ().SetVertexCount (0);
+		}
 	}
 
 	void Move(){
-		if (r.velocity.magnitude <= (r.velocity.normalized * force).magnitude && transform.position.y < 25) {
+		if (r.velocity.magnitude <= (r.velocity.normalized * force).magnitude) {
 			Vector2 ForceToAdd = ((target.transform.position - transform.position)).normalized * force;
 			r.AddForce(ForceToAdd);
 		}
-	}
-//
-//	void OnCollisionEnter2D(Collision2D col){
-//		
-//		if (col.gameObject.tag == "Egg") {
-//				SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
-//				s.connectedBody = col.collider.attachedRigidbody;
-//				s.breakForce = 50;
-//				r.gravityScale = gravity;
-//		}
-//	}
-
-	void OnCollisionStay2D(Collision2D col){
-		if (col.gameObject.tag == "Egg") {
+		if (transform.position.y > 25) {
+			r.gravityScale = 5;
+		} else {
 			r.gravityScale = 0;
-			force = 25;
 		}
 	}
 
-	void OnCollisionExit2D(Collision2D col){
-			r.gravityScale = gravity;
+	void OnCollisionEnter2D(Collision2D col){
+		
+		if (col.gameObject.tag == "Player") {
+				SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
+				s.connectedBody = col.collider.attachedRigidbody;
+				s.breakForce = 50;
+		}
 	}
 
-//	public void OnTriggerExit2D(Collider2D col){
-//			r.gravityScale = 1;
+//	void OnCollisionStay2D(Collision2D col){
+//		if (col.gameObject.tag == "Egg") {
+//			r.gravityScale = 0;
+//			force = 25;
+//		}
 //	}
+//
+//	void OnCollisionExit2D(Collision2D col){
+//			r.gravityScale = gravity;
+//	}
+//		
 }
