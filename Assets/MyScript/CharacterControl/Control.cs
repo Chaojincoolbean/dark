@@ -159,16 +159,16 @@ public class Control : MonoBehaviour {
 
 		float t = 0;
 		yield return new WaitForSeconds (3);
-
+		wings.SetActive (true);
 		while (t < 1) {
 			t += Time.deltaTime;
+			wings.transform.localScale  = new Vector3(t, t, 1);
 			yield return null;
 		}
 			
 		cracked = true;
 		GetComponent<TrailRenderer> ().enabled = true;
 		r.isKinematic = false;
-		wings.SetActive (true);
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Urchin")) {
 			g.GetComponent<UrchinMovement> ().enabled = true;
 		}

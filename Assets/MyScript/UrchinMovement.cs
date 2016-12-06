@@ -40,10 +40,10 @@ public class UrchinMovement : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col){
 		
-		if (col.gameObject.tag == "Player") {
+		if (col.gameObject.tag == "Player" && transform.position.y > -50) {
 				SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
 				s.connectedBody = col.collider.attachedRigidbody;
-				s.breakForce = 60;
+				s.breakForce = 75;
 		}
 	}
 
