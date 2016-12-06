@@ -43,7 +43,7 @@ public class UrchinMovement : MonoBehaviour {
 		if (col.gameObject.tag == "Player") {
 				SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
 				s.connectedBody = col.collider.attachedRigidbody;
-				s.breakForce = 50;
+				s.breakForce = 60;
 		}
 	}
 
