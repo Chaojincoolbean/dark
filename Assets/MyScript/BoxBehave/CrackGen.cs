@@ -69,7 +69,6 @@ public class CrackGen : MonoBehaviour {
 				i += 2;
 				s.enabled = true;
 				GetComponent<LineRenderer> ().SetVertexCount (i);
-				gameObject.layer = 0;
 			}
 		}
 	}
