@@ -80,7 +80,7 @@ public class Control : MonoBehaviour {
 
 		r.AddForce (new Vector2 (Input.GetAxis ("Horizontal") * moveSpeed * 3, Input.GetAxis("Vertical") * moveSpeed * 3));
 
-		if (Input.GetButtonDown ("Fire") && timer < 0) {
+		if (Input.GetButtonDown ("Fire") && timer < 0 && transform.position.y < 100) {
 			wingFlapper.SetTrigger ("ButtonPress");
 			r.AddForce (new Vector2(0, moveSpeed * 50));
 			timer = interval;
@@ -167,6 +167,9 @@ public class Control : MonoBehaviour {
 		GetComponent<TrailRenderer> ().enabled = true;
 		r.isKinematic = false;
 		wings.SetActive (true);
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag("Urchin")) {
+			g.GetComponent<UrchinMovement> ().enabled = true;
+		}
 	}
 
 //    void OnCollisionStay2D(Collision2D collision)
