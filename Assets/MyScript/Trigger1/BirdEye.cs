@@ -19,9 +19,7 @@ public class BirdEye : MonoBehaviour {
 //			&& transform.parent.eulerAngles.z < 2 
 			StartCoroutine(Blink());
 
-			if(col.OverlapPoint(transform.position)){
-				StartCoroutine (FlyUp ());
-			}
+			transform.parent.GetComponent<Animator> ().SetTrigger ("Wiggle");
 		}
 	}
 
@@ -30,7 +28,7 @@ public class BirdEye : MonoBehaviour {
 
 		while (t <= Mathf.PI){
 			float scale = Mathf.Abs (Mathf.Cos (t));
-			transform.localScale = new Vector3(1, scale, scale);
+			transform.localScale = new Vector3(1, scale, 1);
 			t += Time.deltaTime * 10;
 			yield return null;
 		}

@@ -5,7 +5,6 @@ public class EggNestCracking : MonoBehaviour {
 	public float angle;
 	public int index;
 	public GameObject crack;
-	public GameObject player;
 	void Start(){
 	}
 

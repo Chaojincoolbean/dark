@@ -23,7 +23,6 @@ public class CrackGen : MonoBehaviour {
 
 			if (i == 0) {
 				Destroy (GetComponent<LineRenderer>());
-				Destroy (this);
 			}
 		}
 	}
@@ -49,26 +48,29 @@ public class CrackGen : MonoBehaviour {
 			newCrack.transform.parent = transform;
 			GetComponent<AudioSource> ().Play ();
 			cracks++;
+
 			if(!broken){
-				player.GetComponent<Control> ().StartCoroutine ("CloseEye");
 				CheckAmountofCracks ();
 			}
 		}
 	}
 
 	void CheckAmountofCracks(){
-		if (cracks > 0) {
+		player.GetComponent<Control> ().StartCoroutine ("CloseEye");
+
+		if (cracks > 3) {
+			broken = true;
 			StartCoroutine (player.GetComponent<Control> ().StartFlying ());
 			GetComponent<LineRenderer> ().SetPosition (0, player.transform.position); 
 
 			int i = 0;
 
-			foreach(SpringJoint2D s in GetComponents<SpringJoint2D>()){
-				i+=2;
+			foreach (SpringJoint2D s in GetComponents<SpringJoint2D>()) {
+				i += 2;
 				s.enabled = true;
 				GetComponent<LineRenderer> ().SetVertexCount (i);
+				gameObject.layer = 0;
 			}
-			broken = true;
 		}
 	}
 }

@@ -4,7 +4,9 @@ using System.Collections;
 public class BirdCollision : MonoBehaviour {
 	public Color originalColor;
 
-
+	void Start(){
+		originalColor = GameObject.FindGameObjectWithTag ("Player").GetComponent<SpriteRenderer> ().color;
+	}
 	void Update(){
 	}
 

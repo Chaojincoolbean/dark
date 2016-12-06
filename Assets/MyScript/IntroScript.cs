@@ -18,15 +18,16 @@ public class IntroScript : MonoBehaviour {
 		cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);
 		yield return new WaitForSeconds (1);
 
-		float t = 0;
+		float t = -Mathf.PI/2;
 		Transform player = GameObject.FindGameObjectWithTag("Player").transform;
 		Vector3 originalPos = cam.transform.position;
 
-		while (t <= Mathf.PI/2) {
-			cam.transform.position = Vector3.Lerp(originalPos, new Vector3(player.position.x,player.position.y + cam.GetComponent<CmeraFollow>().bias.y, cam.transform.position.z), Mathf.Sin(t));
+		while (t <= 0) {
+			cam.transform.position = Vector3.Lerp(originalPos, new Vector3(player.position.x,player.position.y + cam.GetComponent<CmeraFollow>().bias.y, cam.transform.position.z), Mathf.Sin(t) + 1);
 			t += Time.deltaTime/2;
 			yield return null;
 		}
 		cam.GetComponent<CmeraFollow> ().enabled = true;
+		StartCoroutine(GameObject.Find ("Player").GetComponent<Control> ().CloseEye ());
 	}
 }
