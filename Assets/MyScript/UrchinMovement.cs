@@ -9,40 +9,51 @@ public class UrchinMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		r = GetComponent<Rigidbody2D> ();
-		target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D>();
+		target = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Move ();
+//		Move ();
 		if (GetComponent<SpringJoint2D> () != null) {
+			GetComponent<LineRenderer> ().SetVertexCount (2);
 			GetComponent<LineRenderer> ().SetPosition (0, target.transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position);
+		} else {
+			GetComponent<LineRenderer> ().SetVertexCount (0);
 		}
 	}
 
 	void Move(){
-		Vector2 ForceToAdd = ((target.transform.position - transform.position)).normalized * force;
-		r.AddForce (ForceToAdd);	
-		r.velocity = r.velocity.normalized * 10;
+		if ((r.velocity.normalized * force).magnitude < r.velocity.magnitude) {
+			Vector2 ForceToAdd = ((target.transform.position - transform.position)).normalized * force;
+			r.AddForce (ForceToAdd);	
+		}
 	}
 
-	public void OnTriggerEnter2D(Collider2D col){
+	void OnCollisionEnter2D(Collision2D col){
 		
-		if (col.tag == "Player") {
-			SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
-			s.connectedBody = col.attachedRigidbody;
-			s.breakForce = 50;
+		if (col.gameObject.tag == "Player") {
+			if (col.gameObject.GetComponent<Control> ().cracked) {
+				SpringJoint2D s = gameObject.AddComponent<SpringJoint2D> ();
+				s.connectedBody = col.collider.attachedRigidbody;
+				s.breakForce = 100;
+				r.gravityScale = 1;
+			}
 		}
 	}
 
-	public void OnTriggerStay2D(Collider2D col){
+	void OnCollisionStay2D(Collision2D col){
 		if (col.gameObject.layer == 0) {
-			r.gravityScale = 0;
+			if ( r.velocity.magnitude <= (r.velocity.normalized * force).magnitude) {
+				Vector2 ForceToAdd = ((target.transform.position - transform.position)).normalized * force;
+				r.AddForce (ForceToAdd);	
+				r.gravityScale = 0;
+			}
 		}
 	}
 
-	public void OnTriggerExit2D(Collider2D col){
+	void OnCollisionExit2D(Collision2D col){
 		if (col.gameObject.layer == 0) {
 			r.gravityScale = 1;
 		}
